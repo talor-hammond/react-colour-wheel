@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 
 // Utils:
-import { colourToRgbObj } from '../../utils/utils'
+import { colourToRgbObj, calculateBounds } from '../../utils/utils'
 
 class ColourWheel extends Component {
   constructor () {
@@ -15,9 +15,9 @@ class ColourWheel extends Component {
     // Initialised once the DOM has loaded.
     this.canvasEl = null
     this.ctx = null
-    this.radius = null
 
     // Bindings:
+    this.onCanvasHover = this.onCanvasHover.bind(this)
   }
 
   // MARK - Life-cycle methods:
@@ -27,6 +27,28 @@ class ColourWheel extends Component {
     this.ctx = this.canvasEl.getContext('2d')
 
     this.drawOuterWheel()
+  }
+
+  // MARK - mouse-events:
+  onCanvasHover ({ clientX, clientY }) {
+    const { radius, lineWidth } = this.props
+
+    const canvasPos = this.canvasEl.getBoundingClientRect()
+    const h = radius * 2
+    const w = radius * 2
+
+    const evtPos = {
+      x: clientX - canvasPos.left,
+      y: clientY - canvasPos.top
+    }
+
+    // e is our mouse-position relative to the center of the canvasEl; using pythag
+    const e = Math.sqrt((evtPos.x - (w / 2)) * (evtPos.x - (w / 2)) + (evtPos.y - (h / 2)) * (evtPos.y - (h / 2)))
+
+    // Defining our bounds-objects, exposes a .inside(e) method:
+    const outerWheelBounds = calculateBounds(radius - lineWidth, radius)
+
+    console.log(outerWheelBounds.inside(e))
   }
 
   // MARK - Drawing:
@@ -67,7 +89,7 @@ class ColourWheel extends Component {
       <canvas
         id='colour-picker'
         // onClick={this.canvasClick}
-        // onMouseMove={this.onCanvasHover}
+        onMouseMove={this.onCanvasHover}
         width={`${radius * 2}px`}
         height={`${radius * 2}px`}
       />
