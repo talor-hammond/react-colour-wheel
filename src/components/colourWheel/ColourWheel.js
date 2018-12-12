@@ -68,6 +68,9 @@ class ColourWheel extends Component {
   }
 
   componentDidMount () {
+    // Giving this context to our parent component.
+    this.props.onRef(this)
+
     // Initialising our canvas & context objs.
     this.canvasEl = document.getElementById('colour-picker')
     this.ctx = this.canvasEl.getContext('2d')
@@ -75,10 +78,13 @@ class ColourWheel extends Component {
     this.drawOuterWheel()
   }
 
+  componentWillUnmount () {
+    this.props.onRef(undefined)
+  }
+
   // MARK - mouse-events:
   onCanvasHover ({ clientX, clientY }) {
     const evt = this.getRelativeMousePos(clientX, clientY)
-    console.log(evt.fromCenter)
 
     // Checking mouse location:
     if (this.outerWheelBounds.inside(evt.fromCenter)) {

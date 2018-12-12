@@ -7,7 +7,7 @@ class App extends Component {
   state = {
     selectedColour: 'rgb(0, 0, 0)'
   }
-
+  
   render() {
     const { selectedColour } = this.state
 
@@ -24,14 +24,18 @@ class App extends Component {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <h1>react-colour-picker</h1>
+          <h1>react-colour-wheel</h1>
           <h2 style={{ color: selectedColour }}>{selectedColour}</h2>
           <h3>(pick a colour!)</h3>
         </div>
         <ColourWheel
-          padding={10}
+          radius={200}
+          padding={15}
+          lineWidth={50}
+          shades={10}
           dynamicCursor
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
+          onRef={(ref) => this.colourWheel = ref}
         />
       </div>
     )
