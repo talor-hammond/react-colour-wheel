@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+// Components:
+import ColourWheel from './components/colourWheel/ColourWheel'
+
 class App extends Component {
   render () {
     return (
@@ -13,7 +16,7 @@ class App extends Component {
         }}
       >
         <div>
-          Hi
+          <ColourWheel />
         </div>
       </div>
     )
