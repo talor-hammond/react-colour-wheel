@@ -21,6 +21,27 @@ class ColourWheel extends Component {
 
     // Bindings:
     this.onCanvasHover = this.onCanvasHover.bind(this)
+    this.onCanvasClick = this.onCanvasClick.bind(this)
+  }
+
+  // MARK - Common:
+  getRelativeMousePos (clientX, clientY) {
+    const { radius } = this.props
+
+    const canvasPos = this.canvasEl.getBoundingClientRect()
+    const h = radius * 2
+    const w = radius * 2
+
+    // evtPos relative to our canvas.
+    const evtPos = {
+      x: clientX - canvasPos.left,
+      y: clientY - canvasPos.top
+    }
+
+    // e is our mouse-position relative to the center of the canvasEl; using pythag
+    const e = Math.sqrt((evtPos.x - (w / 2)) * (evtPos.x - (w / 2)) + (evtPos.y - (h / 2)) * (evtPos.y - (h / 2)))
+
+    return e
   }
 
   // MARK - Life-cycle methods:
@@ -41,26 +62,22 @@ class ColourWheel extends Component {
 
   // MARK - mouse-events:
   onCanvasHover ({ clientX, clientY }) {
-    const { radius } = this.props
-
-    const canvasPos = this.canvasEl.getBoundingClientRect()
-    const h = radius * 2
-    const w = radius * 2
-
-    // evtPos relative to our canvas.
-    const evtPos = {
-      x: clientX - canvasPos.left,
-      y: clientY - canvasPos.top
-    }
-
-    // e is our mouse-position relative to the center of the canvasEl; using pythag
-    const e = Math.sqrt((evtPos.x - (w / 2)) * (evtPos.x - (w / 2)) + (evtPos.y - (h / 2)) * (evtPos.y - (h / 2)))
+    const e = this.getRelativeMousePos(clientX, clientY)
 
     // Checking mouse location:
     if (this.outerWheelBounds.inside(e)) {
       this.canvasEl.style.cursor = 'crosshair'
     } else {
       this.canvasEl.style.cursor = 'auto'
+    }
+  }
+
+  onCanvasClick ({ clientX, clientY }) {
+    const e = this.getRelativeMousePos(clientX, clientY)
+
+    // Cases for click-events:
+    if (this.outerWheelBounds.inside(e)) {
+      console.log('Hello')
     }
   }
 
@@ -101,7 +118,7 @@ class ColourWheel extends Component {
     return (
       <canvas
         id='colour-picker'
-        // onClick={this.canvasClick}
+        onClick={this.onCanvasClick}
         onMouseMove={this.onCanvasHover}
         width={`${radius * 2}px`}
         height={`${radius * 2}px`}
