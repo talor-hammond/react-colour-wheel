@@ -64,6 +64,7 @@ class ColourWheel extends Component {
 
     // Defining our bounds-objects, exposes a .inside(e) -> boolean method:
     this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
+    this.innerWheelBounds = calculateBounds(this.innerWheelRadius - lineWidth, this.innerWheelRadius)
   }
 
   componentDidMount () {
@@ -80,6 +81,8 @@ class ColourWheel extends Component {
 
     // Checking mouse location:
     if (this.outerWheelBounds.inside(evt.fromCenter)) {
+      this.canvasEl.style.cursor = 'crosshair'
+    } else if (this.innerWheelBounds.inside(evt.fromCenter) && this.state.innerWheelOpen) {
       this.canvasEl.style.cursor = 'crosshair'
     } else {
       this.canvasEl.style.cursor = 'auto'
@@ -150,6 +153,7 @@ class ColourWheel extends Component {
     })
   }
 
+  // TODO: Animate w requestAnimationFrame()
   drawInnerWheel () {
     const { rgbShades } = this.state
     const { radius, lineWidth } = this.props
@@ -184,16 +188,25 @@ class ColourWheel extends Component {
   }
 
   render () {
-    const { radius } = this.props
+    const { radius, dynamicCursor } = this.props
 
     return (
-      <canvas
-        id='colour-picker'
-        onClick={this.onCanvasClick}
-        onMouseMove={this.onCanvasHover}
-        width={`${radius * 2}px`}
-        height={`${radius * 2}px`}
-      />
+      dynamicCursor ? (
+        <canvas
+          id='colour-picker'
+          onClick={this.onCanvasClick}
+          onMouseMove={this.onCanvasHover}
+          width={`${radius * 2}px`}
+          height={`${radius * 2}px`}
+        />
+      ) : (
+        <canvas
+          id='colour-picker'
+          onClick={this.onCanvasClick}
+          width={`${radius * 2}px`}
+          height={`${radius * 2}px`}
+        />
+      )
     )
   }
 }
@@ -202,15 +215,19 @@ ColourWheel.propTypes = {
   radius: PropTypes.number,
   lineWidth: PropTypes.number,
   colours: PropTypes.array,
-  padding: PropTypes.number
+  shades: PropTypes.number,
+  padding: PropTypes.number,
+  dynamicCursor: PropTypes.bool
 }
 
 ColourWheel.defaultProps = {
-  radius: 150,
-  lineWidth: 40,
+  radius: 200,
+  lineWidth: 50,
   toRgbString: true,
   colours: hexStrings,
-  padding: 0
+  shades: 16,
+  padding: 0,
+  dynamicCursor: false
 }
 
 export default ColourWheel

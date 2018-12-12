@@ -32,10 +32,8 @@ class App extends Component {
           <h3>(pick a colour!)</h3>
         </div>
         <ColourWheel
-          radius={150}
-          lineWidth={30}
-          colours={colourStrings}
-          shades={12}
+          padding={10}
+          dynamicCursor
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
         />
       </div>

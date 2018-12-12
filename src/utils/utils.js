@@ -14,11 +14,7 @@ export function produceRgbShades (r, g, b, amount) {
 }
 
 export function colourToRgbObj (colour) {
-  colour = tinycolor(colour)
-
-  const rgb = colour.toRgb()
-
-  return rgb
+  return tinycolor(colour).toRgb()
 }
 
 export function calculateBounds (min, max) { // i.e. min & max pixels away from the center of the canvas.
