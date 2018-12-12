@@ -34,6 +34,7 @@ class App extends Component {
           radius={150}
           lineWidth={30}
           colours={colourStrings}
+          shades={12}
         />
       </div>
     )

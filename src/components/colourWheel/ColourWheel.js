@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 
 // Utils:
-import { colourToRgbObj, calculateBounds } from '../../utils/utils'
+import { colourToRgbObj, calculateBounds, produceRgbShades } from '../../utils/utils'
 
 class ColourWheel extends Component {
   constructor () {
@@ -33,15 +33,18 @@ class ColourWheel extends Component {
     const w = radius * 2
 
     // evtPos relative to our canvas.
-    const evtPos = {
+    const onCanvas = {
       x: clientX - canvasPos.left,
       y: clientY - canvasPos.top
     }
 
     // e is our mouse-position relative to the center of the canvasEl; using pythag
-    const e = Math.sqrt((evtPos.x - (w / 2)) * (evtPos.x - (w / 2)) + (evtPos.y - (h / 2)) * (evtPos.y - (h / 2)))
+    const fromCenter = Math.sqrt((onCanvas.x - (w / 2)) * (onCanvas.x - (w / 2)) + (onCanvas.y - (h / 2)) * (onCanvas.y - (h / 2)))
 
-    return e
+    return {
+      fromCenter,
+      onCanvas
+    }
   }
 
   // MARK - Life-cycle methods:
@@ -62,10 +65,10 @@ class ColourWheel extends Component {
 
   // MARK - mouse-events:
   onCanvasHover ({ clientX, clientY }) {
-    const e = this.getRelativeMousePos(clientX, clientY)
+    const evt = this.getRelativeMousePos(clientX, clientY)
 
     // Checking mouse location:
-    if (this.outerWheelBounds.inside(e)) {
+    if (this.outerWheelBounds.inside(evt.fromCenter)) {
       this.canvasEl.style.cursor = 'crosshair'
     } else {
       this.canvasEl.style.cursor = 'auto'
@@ -73,12 +76,27 @@ class ColourWheel extends Component {
   }
 
   onCanvasClick ({ clientX, clientY }) {
-    const e = this.getRelativeMousePos(clientX, clientY)
+    const evt = this.getRelativeMousePos(clientX, clientY)
 
     // Cases for click-events:
-    if (this.outerWheelBounds.inside(e)) {
-      console.log('Hello')
+    if (this.outerWheelBounds.inside(evt.fromCenter)) {
+      this.outerWheelClicked(evt.onCanvas)
     }
+  }
+
+  // MARK - Clicks:
+  outerWheelClicked (evtPos) {
+    const { shades } = this.props
+
+    // returns an rgba array of the pixel-clicked.
+    const rgbaArr = this.ctx.getImageData(evtPos.x, evtPos.y, 1, 1).data
+    const [r, g, b] = rgbaArr
+
+    const rgb = { r, g, b }
+
+    const rgbShades = produceRgbShades(r, g, b, shades)
+
+    console.log(rgbShades)
   }
 
   // MARK - Drawing:
