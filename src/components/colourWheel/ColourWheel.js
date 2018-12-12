@@ -10,11 +10,17 @@ class ColourWheel extends Component {
     super()
 
     this.state = {
-      rgb: null
+      rgb: null,
+      rgbShades: [],
+      innerWheelOpen: false,
+      centerCircleOpen: false
     }
 
     // Initialised just before the DOM has loaded; after constructor().
     this.outerWheelBounds = null
+    this.innerWheelBounds = null
+    this.outerWheelRadius = null // TODO: Define this in componentWillMount()
+    this.innerWheelRadius = null
 
     // Initialised once the DOM has loaded.
     this.canvasEl = null
@@ -50,7 +56,11 @@ class ColourWheel extends Component {
 
   // MARK - Life-cycle methods:
   componentWillMount () {
-    const { radius, lineWidth } = this.props
+    const { radius, lineWidth, padding } = this.props
+
+    // Setting effective radii:
+    this.outerWheelRadius = radius - lineWidth / 2 // Takes into account the lineWidth to stop the line from over-flowing the provided radius.
+    this.innerWheelRadius = radius - lineWidth - (lineWidth / 2) - padding // Subtracts props.radius as well as props.padding to account.
 
     // Defining our bounds-objects, exposes a .inside(e) -> boolean method:
     this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
@@ -88,7 +98,6 @@ class ColourWheel extends Component {
   // MARK - Clicks:
   outerWheelClicked (evtPos) {
     const { shades, toRgbString } = this.props
-    console.log(toRgbString)
 
     // returns an rgba array of the pixel-clicked.
     const rgbaArr = this.ctx.getImageData(evtPos.x, evtPos.y, 1, 1).data
@@ -102,6 +111,15 @@ class ColourWheel extends Component {
     const rgbArg = toRgbString ? convertObjToString(rgb) : rgb
 
     this.props.onColourSelected(rgbArg)
+
+    this.setState({
+      rgb,
+      rgbShades,
+      innerWheelOpen: true,
+      centerCircleOpen: false
+    }, () => {
+      this.drawInnerWheel()
+    })
   }
 
   // MARK - Drawing:
@@ -109,9 +127,6 @@ class ColourWheel extends Component {
     const { radius, colours, lineWidth } = this.props
     const height = radius * 2
     const width = radius * 2
-
-    // Takes into account the lineWidth to stop the line from over-flowing the provided radius.
-    const correctedRadius = radius - lineWidth / 2
 
     // Converting each colour into a relative rgb-object we can iterate through.
     const rgbArr = colours.map(colour => colourToRgbObj(colour))
@@ -125,10 +140,43 @@ class ColourWheel extends Component {
       const startAngle = ((2 * Math.PI) / rgbArr.length) * i
       const endAngle = ((2 * Math.PI) / rgbArr.length) * (i + 1)
 
-      this.ctx.arc(width / 2, height / 2, correctedRadius, startAngle, endAngle)
+      this.ctx.arc(width / 2, height / 2, this.outerWheelRadius, startAngle, endAngle)
       this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
 
       // Stroke-style changes based on the shade:
+      this.ctx.strokeStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+      this.ctx.stroke()
+      this.ctx.closePath()
+    })
+  }
+
+  drawInnerWheel () {
+    const { rgbShades } = this.state
+    const { radius, lineWidth } = this.props
+
+    const height = radius * 2
+    const width = radius * 2
+
+    // Re-initialising canvas.
+    this.ctx.clearRect(0, 0, width, height)
+
+    this.drawOuterWheel()
+    // this.drawWhiteRings()
+
+    // Creating our shades circle:
+    rgbShades.forEach((rgb, i) => {
+      this.ctx.beginPath()
+      // 'kicker' corrects the gap between strokes due to rounding of pi
+      // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
+      const kicker = i === rgbShades.length - 1 ? 2 : 1.99
+
+      const startAngle = (((2 * Math.PI) / rgbShades.length) * i) + (1 / 2 * Math.PI)
+      const endAngle = (((2 * Math.PI) / rgbShades.length) * (i + 1)) + (1 / kicker * Math.PI)
+
+      this.ctx.arc(width / 2, height / 2, this.innerWheelRadius, startAngle, endAngle)
+      this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
+
+      // Stroke style changes based on the shade:
       this.ctx.strokeStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
       this.ctx.stroke()
       this.ctx.closePath()
@@ -151,14 +199,18 @@ class ColourWheel extends Component {
 }
 
 ColourWheel.propTypes = {
-  radius: PropTypes.number
+  radius: PropTypes.number,
+  lineWidth: PropTypes.number,
+  colours: PropTypes.array,
+  padding: PropTypes.number
 }
 
 ColourWheel.defaultProps = {
   radius: 150,
   lineWidth: 40,
   toRgbString: true,
-  colours: hexStrings
+  colours: hexStrings,
+  padding: 0
 }
 
 export default ColourWheel
