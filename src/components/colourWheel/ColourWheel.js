@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 // Utils:
 import { colourToRgbObj, calculateBounds, produceRgbShades, convertObjToString } from '../../utils/utils'
+import hexStrings from '../../utils/hexStrings'
 
 class ColourWheel extends Component {
   constructor () {
@@ -86,7 +87,8 @@ class ColourWheel extends Component {
 
   // MARK - Clicks:
   outerWheelClicked (evtPos) {
-    const { shades, toString } = this.props
+    const { shades, toRgbString } = this.props
+    console.log(toRgbString)
 
     // returns an rgba array of the pixel-clicked.
     const rgbaArr = this.ctx.getImageData(evtPos.x, evtPos.y, 1, 1).data
@@ -97,7 +99,7 @@ class ColourWheel extends Component {
     const rgbShades = produceRgbShades(r, g, b, shades)
 
     // Whether the user wants rgb-strings or rgb objects returned.
-    const rgbArg = toString ? convertObjToString(rgb) : rgb
+    const rgbArg = toRgbString ? convertObjToString(rgb) : rgb
 
     this.props.onColourSelected(rgbArg)
   }
@@ -146,6 +148,17 @@ class ColourWheel extends Component {
       />
     )
   }
+}
+
+ColourWheel.propTypes = {
+  radius: PropTypes.number
+}
+
+ColourWheel.defaultProps = {
+  radius: 150,
+  lineWidth: 40,
+  toRgbString: true,
+  colours: hexStrings
 }
 
 export default ColourWheel

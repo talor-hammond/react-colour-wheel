@@ -11,10 +11,6 @@ class App extends Component {
     selectedColour: 'rgb(0, 0, 0)'
   }
 
-  componentDidMount() {
-    console.log(this.state.selectedColour)
-  }
-
   render() {
     const { selectedColour } = this.state
 
@@ -31,7 +27,8 @@ class App extends Component {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ color: selectedColour }}>react-colour-wheel</h1>
+          <h1>react-colour-picker</h1>
+          <h2 style={{ color: selectedColour }}>{selectedColour}</h2>
           <h3>(pick a colour!)</h3>
         </div>
         <ColourWheel
@@ -40,7 +37,6 @@ class App extends Component {
           colours={colourStrings}
           shades={12}
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
-          // toString
         />
       </div>
     )
