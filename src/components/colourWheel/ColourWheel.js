@@ -12,6 +12,9 @@ class ColourWheel extends Component {
       rgb: null
     }
 
+    // Initialised just before the DOM has loaded; after constructor().
+    this.outerWheelBounds = null
+
     // Initialised once the DOM has loaded.
     this.canvasEl = null
     this.ctx = null
@@ -21,6 +24,13 @@ class ColourWheel extends Component {
   }
 
   // MARK - Life-cycle methods:
+  componentWillMount () {
+    const { radius, lineWidth } = this.props
+
+    // Defining our bounds-objects, exposes a .inside(e) method:
+    this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
+  }
+
   componentDidMount () {
     // Initialising our canvas & context objs.
     this.canvasEl = document.getElementById('colour-picker')
@@ -31,7 +41,7 @@ class ColourWheel extends Component {
 
   // MARK - mouse-events:
   onCanvasHover ({ clientX, clientY }) {
-    const { radius, lineWidth } = this.props
+    const { radius } = this.props
 
     const canvasPos = this.canvasEl.getBoundingClientRect()
     const h = radius * 2
@@ -45,10 +55,7 @@ class ColourWheel extends Component {
     // e is our mouse-position relative to the center of the canvasEl; using pythag
     const e = Math.sqrt((evtPos.x - (w / 2)) * (evtPos.x - (w / 2)) + (evtPos.y - (h / 2)) * (evtPos.y - (h / 2)))
 
-    // Defining our bounds-objects, exposes a .inside(e) method:
-    const outerWheelBounds = calculateBounds(radius - lineWidth, radius)
-
-    console.log(outerWheelBounds.inside(e))
+    console.log(this.outerWheelBounds.inside(e))
   }
 
   // MARK - Drawing:
