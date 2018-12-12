@@ -12,3 +12,11 @@ export default function produceRgbShades (r, g, b, amount) {
 
   return shades
 }
+
+export function colourToRgbObj (colour) {
+  colour = tinycolor(colour)
+
+  const rgb = colour.toRgb()
+
+  return rgb
+}

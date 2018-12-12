@@ -3,6 +3,9 @@ import React, { Component } from 'react'
 // Components:
 import ColourWheel from './components/colourWheel/ColourWheel'
 
+// Assets:
+import colourStrings from './utils/hexStrings'
+
 class App extends Component {
   render () {
     return (
@@ -17,6 +20,7 @@ class App extends Component {
       >
         <ColourWheel
           radius={100}
+          colours={colourStrings}
         />
       </div>
     )
