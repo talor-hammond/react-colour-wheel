@@ -27,7 +27,7 @@ class ColourWheel extends Component {
   componentWillMount () {
     const { radius, lineWidth } = this.props
 
-    // Defining our bounds-objects, exposes a .inside(e) method:
+    // Defining our bounds-objects, exposes a .inside(e) -> boolean method:
     this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
   }
 
@@ -47,6 +47,7 @@ class ColourWheel extends Component {
     const h = radius * 2
     const w = radius * 2
 
+    // evtPos relative to our canvas.
     const evtPos = {
       x: clientX - canvasPos.left,
       y: clientY - canvasPos.top
@@ -55,7 +56,12 @@ class ColourWheel extends Component {
     // e is our mouse-position relative to the center of the canvasEl; using pythag
     const e = Math.sqrt((evtPos.x - (w / 2)) * (evtPos.x - (w / 2)) + (evtPos.y - (h / 2)) * (evtPos.y - (h / 2)))
 
-    console.log(this.outerWheelBounds.inside(e))
+    // Checking mouse location:
+    if (this.outerWheelBounds.inside(e)) {
+      this.canvasEl.style.cursor = 'crosshair'
+    } else {
+      this.canvasEl.style.cursor = 'auto'
+    }
   }
 
   // MARK - Drawing:
