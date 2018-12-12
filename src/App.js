@@ -19,7 +19,8 @@ class App extends Component {
         }}
       >
         <ColourWheel
-          radius={100}
+          radius={150}
+          lineWidth={30}
           colours={colourStrings}
         />
       </div>

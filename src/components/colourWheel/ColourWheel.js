@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+// import PropTypes from 'prop-types'
 
 // Utils:
 import { colourToRgbObj } from '../../utils/utils'
@@ -19,7 +20,7 @@ class ColourWheel extends Component {
     // Bindings:
   }
 
-  // Life-cycle methods:
+  // MARK - Life-cycle methods:
   componentDidMount () {
     // Initialising our canvas & context objs.
     this.canvasEl = document.getElementById('colour-picker')
@@ -28,16 +29,19 @@ class ColourWheel extends Component {
     this.drawOuterWheel()
   }
 
-  // Drawing:
+  // MARK - Drawing:
   drawOuterWheel () {
-    const { radius, colours } = this.props
-    // const radius = this.props.radius - lineWidth / 2
+    const { radius, colours, lineWidth } = this.props
+    const height = radius * 2
+    const width = radius * 2
 
+    // Takes into account the lineWidth to stop the line from over-flowing the provided radius.
+    const correctedRadius = radius - lineWidth / 2
+
+    // Converting each colour into a relative rgb-object we can iterate through.
     const rgbArr = colours.map(colour => colourToRgbObj(colour))
 
-    console.log(rgbArr)
-
-    this.ctx.clearRect(0, 0, radius * 2, radius * 2)
+    this.ctx.clearRect(0, 0, width, height)
 
     rgbArr.forEach((rgb, i) => {
       this.ctx.beginPath()
@@ -46,8 +50,8 @@ class ColourWheel extends Component {
       const startAngle = ((2 * Math.PI) / rgbArr.length) * i
       const endAngle = ((2 * Math.PI) / rgbArr.length) * (i + 1)
 
-      this.ctx.arc(radius, radius, radius, startAngle, endAngle)
-      this.ctx.lineWidth = 60 // This is the width of the innerWheel.
+      this.ctx.arc(width / 2, height / 2, correctedRadius, startAngle, endAngle)
+      this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
 
       // Stroke-style changes based on the shade:
       this.ctx.strokeStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
