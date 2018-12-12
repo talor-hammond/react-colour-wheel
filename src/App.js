@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <div
         style={{
@@ -16,8 +16,8 @@ class App extends Component {
           Hi
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
