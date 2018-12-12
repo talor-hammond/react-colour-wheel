@@ -28,3 +28,7 @@ export function calculateBounds (min, max) { // i.e. min & max pixels away from 
     }
   }
 }
+
+export function convertObjToString (obj) {
+  return tinycolor(obj).toRgbString()
+}

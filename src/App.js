@@ -11,6 +11,10 @@ class App extends Component {
     selectedColour: 'rgb(0, 0, 0)'
   }
 
+  componentDidMount() {
+    console.log(this.state.selectedColour)
+  }
+
   render() {
     const { selectedColour } = this.state
 
@@ -35,6 +39,8 @@ class App extends Component {
           lineWidth={30}
           colours={colourStrings}
           shades={12}
+          onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
+          // toString
         />
       </div>
     )
