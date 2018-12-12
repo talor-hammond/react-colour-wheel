@@ -1,6 +1,6 @@
 import tinycolor from 'tinycolor2'
 
-export default function produceRgbShades (r, g, b, amount) {
+export function produceRgbShades (r, g, b, amount) {
   let shades = []
 
   const hsl = tinycolor(`rgb(${r}, ${g}, ${b})`).toHsl()
@@ -19,4 +19,12 @@ export function colourToRgbObj (colour) {
   const rgb = colour.toRgb()
 
   return rgb
+}
+
+export function calculateBounds (min, max) { // i.e. min & max pixels away from the center of the canvas.
+  return {
+    inside: (cursorPosFromCenter) => { // our relative mouse-position is passed through here to check.
+      return cursorPosFromCenter >= min && cursorPosFromCenter <= max
+    }
+  }
 }
