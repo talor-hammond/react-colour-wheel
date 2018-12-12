@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 
-// Components:
+// react-colour-wheel:
 import ColourWheel from './components/colourWheel/ColourWheel'
-
-// Assets:
-import colourStrings from './utils/hexStrings'
 
 class App extends Component {
   state = {

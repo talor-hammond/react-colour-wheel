@@ -64,7 +64,7 @@ class ColourWheel extends Component {
 
     // Defining our bounds-objects, exposes a .inside(e) -> boolean method:
     this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
-    this.innerWheelBounds = calculateBounds(this.innerWheelRadius - lineWidth, this.innerWheelRadius)
+    this.innerWheelBounds = calculateBounds(this.innerWheelRadius - lineWidth / 2, this.innerWheelRadius + lineWidth / 2)
   }
 
   componentDidMount () {
@@ -78,6 +78,7 @@ class ColourWheel extends Component {
   // MARK - mouse-events:
   onCanvasHover ({ clientX, clientY }) {
     const evt = this.getRelativeMousePos(clientX, clientY)
+    console.log(evt.fromCenter)
 
     // Checking mouse location:
     if (this.outerWheelBounds.inside(evt.fromCenter)) {
