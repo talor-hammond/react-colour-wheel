@@ -15,7 +15,9 @@ class App extends Component {
           alignItems: 'center'
         }}
       >
-        <ColourWheel />
+        <ColourWheel
+          radius={100}
+        />
       </div>
     )
   }
