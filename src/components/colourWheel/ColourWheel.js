@@ -68,6 +68,10 @@ class ColourWheel extends Component {
     }
   }
 
+  refresh () {
+
+  }
+
   // MARK - Life-cycle methods:
   componentWillMount () {
     const { radius, lineWidth, padding } = this.props
@@ -125,7 +129,7 @@ class ColourWheel extends Component {
     }
   }
 
-  // MARK - Clicks:
+  // MARK - Clicks & action methods:
   outerWheelClicked (evtPos) {
     // toRgbString is a default prop-type.
     const { shades, toRgbString } = this.props
@@ -171,6 +175,28 @@ class ColourWheel extends Component {
       centerCircleOpen: true
     }, () => {
       this.drawCenterCircle()
+    })
+  }
+
+  clear (callback = false) {
+    // Reset state & re-draw.
+    const { radius } = this.props
+
+    const height = radius * 2
+    const width = radius * 2
+
+    // Re-initialising canvas.
+    this.ctx.clearRect(0, 0, width, height)
+
+    this.drawOuterWheel()
+
+    this.setState({
+      rgb: null,
+      rgbShades: [],
+      innerWheelOpen: false,
+      centerCircleOpen: false
+    }, () => {
+      if (callback) callback()
     })
   }
 

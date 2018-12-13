@@ -7,8 +7,12 @@ class App extends Component {
   state = {
     selectedColour: 'rgb(0, 0, 0)'
   }
-  
-  render() {
+
+  clearColourWheel = () => {
+    this.colourWheel.clear()
+  }
+
+  render () {
     const { selectedColour } = this.state
 
     return (
@@ -33,21 +37,17 @@ class App extends Component {
           lineWidth={50}
           dynamicCursor
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
-          onRef={(ref) => this.colourWheel = ref}
-          // shadow
-          // shadowDepth
-          // preset={} // colour from parent's state here.
+          onRef={ref => (this.colourWheel = ref)}
         />
-        <div 
-        // onClick={this.colourWheel.clearSelection}
-        style={{ 
-          cursor: 'pointer',
-          fontSize: 20,
-          fontWeight: '500',
-          color: '#FFFFFF',
-          marginTop: 20,
-          transition: '1s ease text-decoration'
-        }}>
+        <div
+          onClick={this.clearColourWheel}
+          style={{
+            cursor: 'pointer',
+            fontSize: 20,
+            fontWeight: '500',
+            color: '#FFFFFF',
+            marginTop: 20
+          }}>
           clear
         </div>
       </div>
