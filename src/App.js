@@ -17,16 +17,15 @@ class App extends Component {
           height: '100vh',
           width: '100vw',
           display: 'flex',
-          backgroundColor: '#EEF5DB',
+          backgroundColor: '#394032',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center'
         }}
       >
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', color: '#FFFFFF' }}>
           <h1>react-colour-wheel</h1>
           <h2 style={{ color: selectedColour }}>{selectedColour}</h2>
-          <h3>(pick a colour!)</h3>
         </div>
         <ColourWheel
           radius={200}
@@ -39,6 +38,18 @@ class App extends Component {
           // shadowDepth
           // preset={} // colour from parent's state here.
         />
+        <div 
+        // onClick={this.colourWheel.clearSelection}
+        style={{ 
+          cursor: 'pointer',
+          fontSize: 20,
+          fontWeight: '500',
+          color: '#FFFFFF',
+          marginTop: 20,
+          transition: '1s ease text-decoration'
+        }}>
+          clear
+        </div>
       </div>
     )
   }
