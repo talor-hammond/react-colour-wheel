@@ -30,12 +30,14 @@ class App extends Component {
         </div>
         <ColourWheel
           radius={200}
-          padding={15}
+          padding={10}
           lineWidth={50}
-          shades={10}
           dynamicCursor
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={(ref) => this.colourWheel = ref}
+          // shadow
+          // shadowDepth
+          // preset={} // colour from parent's state here.
         />
       </div>
     )

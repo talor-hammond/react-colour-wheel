@@ -5,6 +5,10 @@ import PropTypes from 'prop-types'
 import { colourToRgbObj, calculateBounds, produceRgbShades, convertObjToString } from '../../utils/utils'
 import hexStrings from '../../utils/hexStrings'
 
+// Global-vars:
+const fullCircle = 2 * Math.PI
+const quarterCircle = fullCircle / 4
+
 class ColourWheel extends Component {
   constructor () {
     super()
@@ -147,8 +151,8 @@ class ColourWheel extends Component {
       this.ctx.beginPath()
 
       // Creates strokes 1 / rgbArr.length of the circle circumference.
-      const startAngle = ((2 * Math.PI) / rgbArr.length) * i
-      const endAngle = ((2 * Math.PI) / rgbArr.length) * (i + 1)
+      const startAngle = (fullCircle / rgbArr.length) * i
+      const endAngle = (fullCircle / rgbArr.length) * (i + 1)
 
       this.ctx.arc(width / 2, height / 2, this.outerWheelRadius, startAngle, endAngle)
       this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
@@ -160,7 +164,6 @@ class ColourWheel extends Component {
     })
   }
 
-  // TODO: Animate w requestAnimationFrame()
   drawInnerWheel () {
     const { rgbShades } = this.state
     const { radius, lineWidth } = this.props
@@ -177,12 +180,12 @@ class ColourWheel extends Component {
     // Creating our shades circle:
     rgbShades.forEach((rgb, i) => {
       this.ctx.beginPath()
-      // 'kicker' corrects the gap between strokes due to rounding of pi
-      // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
-      const kicker = i === rgbShades.length - 1 ? 2 : 1.99
+      // // 'kicker' corrects the gap between strokes due to rounding of pi
+      // // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
+      // const kicker = i === rgbShades.length - 1 ? 2 : 1.99
 
-      const startAngle = (((2 * Math.PI) / rgbShades.length) * i) + (1 / 2 * Math.PI)
-      const endAngle = (((2 * Math.PI) / rgbShades.length) * (i + 1)) + (1 / kicker * Math.PI)
+      const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
+      const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + quarterCircle
 
       this.ctx.arc(width / 2, height / 2, this.innerWheelRadius, startAngle, endAngle)
       this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
