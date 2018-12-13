@@ -72,8 +72,16 @@ class ColourWheel extends Component {
     }
   }
 
-  refresh () {
+  initCanvas () {
+    const { radius } = this.props
 
+    const width = radius * 2
+    const height = radius * 2
+
+    this.ctx.clearRect(0, 0, width, height)
+
+    this.drawOuterWheel()
+    this.drawBars()
   }
 
   // MARK - Life-cycle methods:
@@ -189,15 +197,7 @@ class ColourWheel extends Component {
 
   clear (callback = false) {
     // Reset state & re-draw.
-    const { radius } = this.props
-
-    const height = radius * 2
-    const width = radius * 2
-
-    // Re-initialising canvas.
-    this.ctx.clearRect(0, 0, width, height)
-
-    this.drawOuterWheel()
+    this.initCanvas()
 
     this.setState({
       rgb: null,
@@ -220,8 +220,6 @@ class ColourWheel extends Component {
 
     // Converting each colour into a relative rgb-object we can iterate through.
     const rgbArr = colours.map(colour => colourToRgbObj(colour))
-
-    this.ctx.clearRect(0, 0, width, height)
 
     rgbArr.forEach((rgb, i) => {
       this.ctx.beginPath()
