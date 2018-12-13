@@ -145,9 +145,10 @@ class ColourWheel extends Component {
       rgb,
       rgbShades,
       innerWheelOpen: true,
-      centerCircleOpen: false
+      centerCircleOpen: true
     }, () => {
       this.drawInnerWheel()
+      this.drawCenterCircle()
     })
   }
 
