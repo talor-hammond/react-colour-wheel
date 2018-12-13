@@ -237,12 +237,14 @@ class ColourWheel extends Component {
   }
 
   drawSpacers () {
-    this.drawSpacer(this.firstSpacerRadius)
-    this.drawSpacer(this.secondSpacerRadius)
+    if (this.props.spacers) {
+      this.drawSpacer(this.firstSpacerRadius)
+      this.drawSpacer(this.secondSpacerRadius)
+    }
   }
 
   drawSpacer (spacerRadius) {
-    const { radius, padding } = this.props
+    const { radius, padding, spacers: { colour } } = this.props
 
     const height = radius * 2
     const width = radius * 2
@@ -255,7 +257,7 @@ class ColourWheel extends Component {
     this.ctx.lineWidth = padding // This is the width of the innerWheel.
 
     // Stroke-style changes based on the shade:
-    this.ctx.strokeStyle = 'rgb(0, 0, 0)'
+    this.ctx.strokeStyle = colour
     this.ctx.stroke()
     this.ctx.closePath()
   }
