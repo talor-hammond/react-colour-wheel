@@ -28,3 +28,8 @@ export function calculateBounds (min, max) { // i.e. min & max pixels away from 
 export function convertObjToString (obj) {
   return tinycolor(obj).toRgbString()
 }
+
+// Method is helpful for generating a radius representative of the stroke + taking into account lineWidth.
+export function getEffectiveRadius (trueRadius, lineWidth) {
+  return trueRadius - lineWidth / 2
+}

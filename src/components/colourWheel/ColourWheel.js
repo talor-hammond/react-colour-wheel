@@ -2,7 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 // Utils:
-import { colourToRgbObj, calculateBounds, produceRgbShades, convertObjToString } from '../../utils/utils'
+import {
+  colourToRgbObj,
+  getEffectiveRadius,
+  calculateBounds,
+  produceRgbShades,
+  convertObjToString
+} from '../../utils/utils'
 import hexStrings from '../../utils/hexStrings'
 
 // Global-vars:
@@ -23,8 +29,11 @@ class ColourWheel extends Component {
     // Initialised just before the DOM has loaded; after constructor().
     this.outerWheelBounds = null
     this.innerWheelBounds = null
-    this.outerWheelRadius = null // TODO: Define this in componentWillMount()
+    this.centerCircleBounds = null
+
+    this.outerWheelRadius = null
     this.innerWheelRadius = null
+    this.centerCircleRadius = null
 
     // Initialised once the DOM has loaded.
     this.canvasEl = null
@@ -64,12 +73,14 @@ class ColourWheel extends Component {
     const { radius, lineWidth, padding } = this.props
 
     // Setting effective radii:
-    this.outerWheelRadius = radius - lineWidth / 2 // Takes into account the lineWidth to stop the line from over-flowing the provided radius.
-    this.innerWheelRadius = radius - lineWidth - (lineWidth / 2) - padding // Subtracts props.radius as well as props.padding to account.
+    this.outerWheelRadius = radius
+    this.innerWheelRadius = this.outerWheelRadius - lineWidth - padding
+    this.centerCircleRadius = this.innerWheelRadius - lineWidth - padding
 
     // Defining our bounds-objects, exposes a .inside(e) -> boolean method:
     this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
-    this.innerWheelBounds = calculateBounds(this.innerWheelRadius - lineWidth / 2, this.innerWheelRadius + lineWidth / 2)
+    this.innerWheelBounds = calculateBounds(this.innerWheelRadius - lineWidth, this.innerWheelRadius)
+    this.centerCircleBounds = calculateBounds(0, this.centerCircleRadius)
   }
 
   componentDidMount () {
@@ -152,6 +163,9 @@ class ColourWheel extends Component {
     const height = radius * 2
     const width = radius * 2
 
+    // This value ensures that the stroke accounts for the lineWidth provided to produce an accurately represented radius.
+    const effectiveRadius = getEffectiveRadius(radius, lineWidth)
+
     // Converting each colour into a relative rgb-object we can iterate through.
     const rgbArr = colours.map(colour => colourToRgbObj(colour))
 
@@ -164,7 +178,7 @@ class ColourWheel extends Component {
       const startAngle = (fullCircle / rgbArr.length) * i
       const endAngle = (fullCircle / rgbArr.length) * (i + 1)
 
-      this.ctx.arc(width / 2, height / 2, this.outerWheelRadius, startAngle, endAngle)
+      this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
       this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
 
       // Stroke-style changes based on the shade:
@@ -180,6 +194,8 @@ class ColourWheel extends Component {
 
     const height = radius * 2
     const width = radius * 2
+
+    const effectiveRadius = getEffectiveRadius(this.innerWheelRadius, lineWidth)
 
     // Re-initialising canvas.
     this.ctx.clearRect(0, 0, width, height)
@@ -197,7 +213,7 @@ class ColourWheel extends Component {
       const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
       const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + quarterCircle
 
-      this.ctx.arc(width / 2, height / 2, this.innerWheelRadius, startAngle, endAngle)
+      this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
       this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
 
       // Stroke style changes based on the shade:
@@ -205,6 +221,10 @@ class ColourWheel extends Component {
       this.ctx.stroke()
       this.ctx.closePath()
     })
+  }
+
+  drawCenterCircle () {
+    const { rgb } = this.state
   }
 
   render () {
