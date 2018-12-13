@@ -107,6 +107,8 @@ class ColourWheel extends Component {
       this.canvasEl.style.cursor = 'crosshair'
     } else if (this.innerWheelBounds.inside(evt.fromCenter) && this.state.innerWheelOpen) {
       this.canvasEl.style.cursor = 'crosshair'
+    } else if (this.centerCircleBounds.inside(evt.fromCenter) && this.state.centerCircleOpen) {
+      this.canvasEl.style.cursor = 'pointer'
     } else {
       this.canvasEl.style.cursor = 'auto'
     }
@@ -255,6 +257,8 @@ class ColourWheel extends Component {
     this.ctx.stroke()
     this.ctx.closePath()
   }
+
+  // TODO: Draw white rings w shadowBlur
 
   render () {
     const { radius, dynamicCursor } = this.props
