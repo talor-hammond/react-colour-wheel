@@ -30,10 +30,14 @@ class ColourWheel extends Component {
     this.outerWheelBounds = null
     this.innerWheelBounds = null
     this.centerCircleBounds = null
+    this.firstBarBounds = null
+    this.secondBarBounds = null
 
     this.outerWheelRadius = null
     this.innerWheelRadius = null
     this.centerCircleRadius = null
+    this.firstBarRadius = null
+    this.secondBarRadius = null
 
     // Initialised once the DOM has loaded.
     this.canvasEl = null
@@ -80,11 +84,15 @@ class ColourWheel extends Component {
     this.outerWheelRadius = radius
     this.innerWheelRadius = this.outerWheelRadius - lineWidth - padding
     this.centerCircleRadius = this.innerWheelRadius - lineWidth - padding
+    this.firstBarRadius = this.outerWheelRadius - lineWidth // NOTE: effectiveRadius will take into account padding as lineWidth.
+    this.secondBarRadius = this.innerWheelRadius - lineWidth
 
     // Defining our bounds-objects, exposes a .inside(e) -> boolean method:
     this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
     this.innerWheelBounds = calculateBounds(this.innerWheelRadius - lineWidth, this.innerWheelRadius)
     this.centerCircleBounds = calculateBounds(0, this.centerCircleRadius)
+    this.firstBarBounds = calculateBounds(this.firstBarRadius - padding, this.firstBarRadius)
+    this.secondBarBounds = calculateBounds(this.secondBarRadius - padding, this.secondBarRadius)
   }
 
   componentDidMount () {
@@ -96,6 +104,7 @@ class ColourWheel extends Component {
     this.ctx = this.canvasEl.getContext('2d')
 
     this.drawOuterWheel()
+    this.drawBars()
   }
 
   componentWillUnmount () {
@@ -231,6 +240,49 @@ class ColourWheel extends Component {
     })
   }
 
+  drawBars () {
+    this.drawFirstBar()
+    this.drawSecondBar()
+  }
+
+  drawFirstBar () {
+    const { radius, padding } = this.props
+
+    const height = radius * 2
+    const width = radius * 2
+
+    const effectiveRadius = getEffectiveRadius(this.firstBarRadius, padding)
+
+    this.ctx.beginPath()
+
+    this.ctx.arc(width / 2, height / 2, effectiveRadius, 0, fullCircle)
+    this.ctx.lineWidth = padding // This is the width of the innerWheel.
+
+    // Stroke-style changes based on the shade:
+    this.ctx.strokeStyle = 'rgb(0, 0, 0)'
+    this.ctx.stroke()
+    this.ctx.closePath()
+  }
+
+  drawSecondBar () {
+    const { radius, padding } = this.props
+
+    const height = radius * 2
+    const width = radius * 2
+
+    const effectiveRadius = getEffectiveRadius(this.secondBarRadius, padding)
+
+    this.ctx.beginPath()
+
+    this.ctx.arc(width / 2, height / 2, effectiveRadius, 0, fullCircle)
+    this.ctx.lineWidth = padding // This is the width of the innerWheel.
+
+    // Stroke-style changes based on the shade:
+    this.ctx.strokeStyle = 'rgb(0, 0, 0)'
+    this.ctx.stroke()
+    this.ctx.closePath()
+  }
+
   drawInnerWheel () {
     const { rgbShades } = this.state
     const { radius, lineWidth } = this.props
@@ -244,7 +296,7 @@ class ColourWheel extends Component {
     this.ctx.clearRect(0, 0, width, height)
 
     this.drawOuterWheel()
-    // this.drawWhiteRings()
+    this.drawBars()
 
     // Creating our shades circle:
     rgbShades.forEach((rgb, i) => {

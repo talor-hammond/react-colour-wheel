@@ -3,13 +3,18 @@ import React, { Component } from 'react'
 // react-colour-wheel:
 import ColourWheel from './components/colourWheel/ColourWheel'
 
+const yourDefaultColour = 'rgb(0, 0, 0)'
+
 class App extends Component {
   state = {
-    selectedColour: 'rgb(0, 0, 0)'
+    selectedColour: yourDefaultColour
   }
 
   clearColourWheel = () => {
-    this.colourWheel.clear()
+    this.colourWheel.clear(() => {
+      // Do some other stuff in this callback if you want -- other than re-setting your selectedColour.
+      this.setState({ selectedColour: yourDefaultColour })
+    })
   }
 
   render () {
@@ -29,7 +34,7 @@ class App extends Component {
       >
         <div style={{ textAlign: 'center', color: '#FFFFFF' }}>
           <h1>react-colour-wheel</h1>
-          <h2 style={{ color: selectedColour }}>{selectedColour}</h2>
+          <h2><span>Your colour: </span><span style={{ color: selectedColour }}>{selectedColour}</span></h2>
         </div>
         <ColourWheel
           radius={200}
@@ -38,6 +43,9 @@ class App extends Component {
           dynamicCursor
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={ref => (this.colourWheel = ref)}
+          // shadow
+          // shadowAmount
+          // shadowColour
         />
         <div
           onClick={this.clearColourWheel}
