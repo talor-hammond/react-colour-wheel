@@ -52,6 +52,7 @@ class ColourWheel extends Component {
     // e is our mouse-position relative to the center of the canvasEl; using pythag
     const fromCenter = Math.sqrt((onCanvas.x - (w / 2)) * (onCanvas.x - (w / 2)) + (onCanvas.y - (h / 2)) * (onCanvas.y - (h / 2)))
 
+    // This returns an object in which we have both mouse-pos relative to the canvas, as well as the true-middle.
     return {
       fromCenter,
       onCanvas
@@ -90,7 +91,7 @@ class ColourWheel extends Component {
   onCanvasHover ({ clientX, clientY }) {
     const evt = this.getRelativeMousePos(clientX, clientY)
 
-    // Checking mouse location:
+    // Cases for mouse-location:
     if (this.outerWheelBounds.inside(evt.fromCenter)) {
       this.canvasEl.style.cursor = 'crosshair'
     } else if (this.innerWheelBounds.inside(evt.fromCenter) && this.state.innerWheelOpen) {
@@ -106,11 +107,14 @@ class ColourWheel extends Component {
     // Cases for click-events:
     if (this.outerWheelBounds.inside(evt.fromCenter)) {
       this.outerWheelClicked(evt.onCanvas)
+    } else if (this.innerWheelBounds.inside(evt.fromCenter) && this.state.innerWheelOpen) {
+      this.innerWheelClicked(evt.onCanvas)
     }
   }
 
   // MARK - Clicks:
   outerWheelClicked (evtPos) {
+    // toRgbString is a default prop-type.
     const { shades, toRgbString } = this.props
 
     // returns an rgba array of the pixel-clicked.
@@ -134,6 +138,12 @@ class ColourWheel extends Component {
     }, () => {
       this.drawInnerWheel()
     })
+  }
+
+  innerWheelClicked (evtPos) {
+    const { rgb } = this.props
+
+    console.log('hello')
   }
 
   // MARK - Drawing:
