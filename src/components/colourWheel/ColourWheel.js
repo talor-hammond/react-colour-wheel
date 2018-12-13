@@ -244,7 +244,7 @@ class ColourWheel extends Component {
   }
 
   drawSpacer (spacerRadius) {
-    const { radius, padding, spacers: { colour } } = this.props
+    const { radius, padding, spacers: { colour, shadowColour, shadowBlur } } = this.props
 
     const height = radius * 2
     const width = radius * 2
@@ -257,9 +257,13 @@ class ColourWheel extends Component {
     this.ctx.lineWidth = padding // This is the width of the innerWheel.
 
     // Stroke-style changes based on the shade:
+    this.ctx.shadowColor = shadowColour
+    this.ctx.shadowBlur = shadowBlur
     this.ctx.strokeStyle = colour
     this.ctx.stroke()
     this.ctx.closePath()
+
+    this.ctx.shadowColor = 'transparent'
   }
 
   drawInnerWheel () {
@@ -280,12 +284,12 @@ class ColourWheel extends Component {
     // Creating our shades circle:
     rgbShades.forEach((rgb, i) => {
       this.ctx.beginPath()
-      // // 'kicker' corrects the gap between strokes due to rounding of pi
-      // // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
-      // const kicker = i === rgbShades.length - 1 ? 2 : 1.99
+      // 'kicker' corrects the gap between strokes due to rounding of pi
+      // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
+      const kicker = i === rgbShades.length - 1 ? 2 : 1.99
 
       const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
-      const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + quarterCircle
+      const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / kicker) * Math.PI
 
       this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
       this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
@@ -342,22 +346,22 @@ class ColourWheel extends Component {
 }
 
 ColourWheel.propTypes = {
-  radius: PropTypes.number,
-  lineWidth: PropTypes.number,
+  radius: PropTypes.number.isRequired,
+  lineWidth: PropTypes.number.isRequired,
   colours: PropTypes.array,
   shades: PropTypes.number,
   padding: PropTypes.number,
-  dynamicCursor: PropTypes.bool
+  dynamicCursor: PropTypes.bool,
+  spacers: PropTypes.object,
+  onColourSelected: PropTypes.func
 }
 
 ColourWheel.defaultProps = {
-  radius: 200,
-  lineWidth: 50,
-  toRgbString: true,
+  toRgbString: true, // NOTE: This should default to false; be something else -- this is counter-intuitive
   colours: hexStrings,
   shades: 16,
   padding: 0,
-  dynamicCursor: false
+  dynamicCursor: true
 }
 
 export default ColourWheel

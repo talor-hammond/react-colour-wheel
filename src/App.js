@@ -40,12 +40,14 @@ class App extends Component {
           radius={200}
           padding={10}
           lineWidth={50}
-          dynamicCursor
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={ref => (this.colourWheel = ref)}
           spacers={{
-            colour: 'white'
+            colour: 'white',
+            shadowColour: 'grey',
+            shadowBlur: 15
           }}
+          // animate
         />
         <div
           onClick={this.clearColourWheel}
