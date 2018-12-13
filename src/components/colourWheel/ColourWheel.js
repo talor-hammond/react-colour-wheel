@@ -152,9 +152,23 @@ class ColourWheel extends Component {
   }
 
   innerWheelClicked (evtPos) {
-    const { rgb } = this.props
+    const { toRgbString } = this.props
 
-    console.log('hello')
+    const rgbaArr = this.ctx.getImageData(evtPos.x, evtPos.y, 1, 1).data
+    const [r, g, b] = rgbaArr
+
+    const rgb = { r, g, b }
+
+    const rgbArg = toRgbString ? convertObjToString(rgb) : rgb
+
+    this.props.onColourSelected(rgbArg)
+
+    this.setState({
+      rgb,
+      centerCircleOpen: true
+    }, () => {
+      this.drawCenterCircle()
+    })
   }
 
   // MARK - Drawing:
@@ -225,6 +239,20 @@ class ColourWheel extends Component {
 
   drawCenterCircle () {
     const { rgb } = this.state
+    const { radius } = this.props
+
+    const height = radius * 2
+    const width = radius * 2
+    this.ctx.lineWidth = 0
+
+    this.ctx.beginPath()
+    this.ctx.arc(width / 2, height / 2, this.centerCircleRadius, 0, 2 * Math.PI)
+    this.ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+    this.ctx.fill()
+    this.ctx.lineWidth = 0.1
+    this.ctx.strokeStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+    this.ctx.stroke()
+    this.ctx.closePath()
   }
 
   render () {
