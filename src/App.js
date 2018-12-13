@@ -33,8 +33,8 @@ class App extends Component {
         }}
       >
         <div style={{ textAlign: 'center', color: '#FFFFFF' }}>
-          <h1>react-colour-wheel</h1>
-          <h2><span>Your colour: </span><span style={{ color: selectedColour }}>{selectedColour}</span></h2>
+          <h1><span>react-colour-wheel</span></h1>
+          <h2><span style={{ color: selectedColour }}>{selectedColour}</span></h2>
         </div>
         <ColourWheel
           radius={200}
@@ -43,9 +43,9 @@ class App extends Component {
           dynamicCursor
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={ref => (this.colourWheel = ref)}
-          // shadow
-          // shadowAmount
-          // shadowColour
+          spacers={{
+            colour: 'white'
+          }}
         />
         <div
           onClick={this.clearColourWheel}
