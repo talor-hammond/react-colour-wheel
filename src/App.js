@@ -37,9 +37,9 @@ class App extends Component {
           <h2><span style={{ color: selectedColour }}>{selectedColour}</span></h2>
         </div>
         <ColourWheel
-          radius={350}
+          radius={250}
           padding={10}
-          lineWidth={75}
+          lineWidth={60}
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={ref => (this.colourWheel = ref)}
           spacers={{

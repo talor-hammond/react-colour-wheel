@@ -207,15 +207,14 @@ class ColourWheel extends Component {
   }
 
   clear (callback = false) {
-    // Reset state & re-draw.
-    this.initCanvas()
-
     this.setState({
       rgb: null,
       rgbShades: [],
       innerWheelOpen: false,
       centerCircleOpen: false
     }, () => {
+      // Reset state & re-draw.
+      this.initCanvas()
       if (callback) callback()
     })
   }
