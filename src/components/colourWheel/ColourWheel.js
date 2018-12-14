@@ -207,15 +207,14 @@ class ColourWheel extends Component {
   }
 
   clear (callback = false) {
-    // Reset state & re-draw.
-    this.initCanvas()
-
     this.setState({
       rgb: null,
       rgbShades: [],
       innerWheelOpen: false,
       centerCircleOpen: false
     }, () => {
+      // Reset state & re-draw.
+      this.initCanvas()
       if (callback) callback()
     })
   }
@@ -282,8 +281,8 @@ class ColourWheel extends Component {
 
   drawInnerWheel () {
     // TODO: Animate
-    const { rgbShades } = this.state
-    const { radius, lineWidth } = this.props
+    const { rgb: { r, g, b } } = this.state
+    const { radius, lineWidth, shades } = this.props
 
     const height = radius * 2
     const width = radius * 2
@@ -295,6 +294,8 @@ class ColourWheel extends Component {
 
     this.drawOuterWheel()
     this.drawSpacers()
+
+    const rgbShades = produceRgbShades(r, g, b, shades)
 
     // Creating our shades circle:
     rgbShades.forEach((rgb, i) => {

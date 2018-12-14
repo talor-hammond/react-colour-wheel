@@ -1,4 +1,4 @@
-import tinycolor from 'tinycolor2'
+import tinycolor from 'tinycolor2' // TODO: Make this smaller?
 
 export function produceRgbShades (r, g, b, amount) {
   let shades = []
@@ -13,7 +13,7 @@ export function produceRgbShades (r, g, b, amount) {
   return shades
 }
 
-export function colourToRgbObj (colour) {
+export function colourToRgbObj (colour) { // TODO: Note which colours tinycolor() can take; i.e. hex / rgb strings, objects, etc.
   return tinycolor(colour).toRgb()
 }
 
