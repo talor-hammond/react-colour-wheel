@@ -24,7 +24,6 @@ class ColourWheel extends Component {
 
     this.state = {
       rgb: null,
-      rgbShades: [],
       innerWheelOpen: false,
       centerCircleOpen: false
     }
@@ -114,10 +113,8 @@ class ColourWheel extends Component {
 
     if (this.props.preset) {
       const rgb = colourToRgbObj(this.props.presetColour)
-      const { r, g, b } = rgb
-      const rgbShades = produceRgbShades(r, g, b, this.props.shades)
 
-      this.setState({ rgb, rgbShades }, () => {
+      this.setState({ rgb }, () => {
         this.drawOuterWheel()
         this.drawInnerWheel()
         this.drawCenterCircle()
@@ -162,15 +159,11 @@ class ColourWheel extends Component {
 
   // MARK - Clicks & action methods:
   outerWheelClicked (evtPos) {
-    const { shades } = this.props
-
     // returns an rgba array of the pixel-clicked.
     const rgbaArr = this.ctx.getImageData(evtPos.x, evtPos.y, 1, 1).data
     const [r, g, b] = rgbaArr
 
     const rgb = { r, g, b }
-
-    const rgbShades = produceRgbShades(r, g, b, shades)
 
     // Whether the user wants rgb-strings or rgb objects returned.
     const rgbArg = convertObjToString(rgb) // TODO: Let user set different return values in props; e.g. rbg obj, string, etc.
@@ -179,7 +172,6 @@ class ColourWheel extends Component {
 
     this.setState({
       rgb,
-      rgbShades,
       innerWheelOpen: true,
       centerCircleOpen: true
     }, () => {
@@ -209,7 +201,6 @@ class ColourWheel extends Component {
   clear (callback = false) {
     this.setState({
       rgb: null,
-      rgbShades: [],
       innerWheelOpen: false,
       centerCircleOpen: false
     }, () => {
@@ -281,8 +272,8 @@ class ColourWheel extends Component {
 
   drawInnerWheel () {
     // TODO: Animate
-    const { rgbShades } = this.state
-    const { radius, lineWidth } = this.props
+    const { rgb: { r, g, b } } = this.state
+    const { radius, lineWidth, shades } = this.props
 
     const height = radius * 2
     const width = radius * 2
@@ -294,6 +285,8 @@ class ColourWheel extends Component {
 
     this.drawOuterWheel()
     this.drawSpacers()
+
+    const rgbShades = produceRgbShades(r, g, b, shades)
 
     // Creating our shades circle:
     rgbShades.forEach((rgb, i) => {
