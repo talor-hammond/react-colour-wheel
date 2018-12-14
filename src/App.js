@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 // react-colour-wheel:
 import ColourWheel from './components/colourWheel/ColourWheel'
 
-const yourDefaultColour = 'rgb(0, 0, 0)'
+const yourDefaultColour = 'rgb(255, 255, 255)'
 
 class App extends Component {
   state = {
@@ -37,9 +37,9 @@ class App extends Component {
           <h2><span style={{ color: selectedColour }}>{selectedColour}</span></h2>
         </div>
         <ColourWheel
-          radius={250}
+          radius={200}
           padding={10}
-          lineWidth={60}
+          lineWidth={50}
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={ref => (this.colourWheel = ref)}
           spacers={{
