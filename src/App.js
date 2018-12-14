@@ -43,10 +43,12 @@ class App extends Component {
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={ref => (this.colourWheel = ref)}
           spacers={{
-            colour: 'white',
+            colour: '#FFFFFF',
             shadowColour: 'grey',
-            shadowBlur: 15
+            shadowBlur: 5
           }}
+          preset // You can set this bool depending on whether you have a pre-selected colour in state.
+          presetColour={'rgb(255, 255, 255)'}
           // animate
         />
         <div

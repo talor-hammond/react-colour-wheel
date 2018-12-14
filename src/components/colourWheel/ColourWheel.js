@@ -1,3 +1,6 @@
+// NOTES:
+// -- Array-destructuring assignment won't work w vanilla ie11; needs babel-polyfill lol
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -109,8 +112,21 @@ class ColourWheel extends Component {
     this.canvasEl = document.getElementById('colour-picker')
     this.ctx = this.canvasEl.getContext('2d')
 
-    this.drawOuterWheel()
-    this.drawSpacers()
+    if (this.props.preset) {
+      const rgb = colourToRgbObj(this.props.presetColour)
+      const { r, g, b } = rgb
+      const rgbShades = produceRgbShades(r, g, b, this.props.shades)
+
+      this.setState({ rgb, rgbShades }, () => {
+        this.drawOuterWheel()
+        this.drawInnerWheel()
+        this.drawCenterCircle()
+        this.drawSpacers()
+      })
+    } else {
+      this.drawOuterWheel()
+      this.drawSpacers()
+    }
   }
 
   componentWillUnmount () {
@@ -209,6 +225,7 @@ class ColourWheel extends Component {
 
   // MARK - Drawing:
   drawOuterWheel () {
+    // TODO: Draw outline; separate method.
     const { radius, colours, lineWidth } = this.props
     const height = radius * 2
     const width = radius * 2
@@ -267,6 +284,7 @@ class ColourWheel extends Component {
   }
 
   drawInnerWheel () {
+    // TODO: Animate
     const { rgbShades } = this.state
     const { radius, lineWidth } = this.props
 
@@ -319,8 +337,6 @@ class ColourWheel extends Component {
     this.ctx.closePath()
   }
 
-  // TODO: Draw white rings w shadowBlur
-
   render () {
     const { radius, dynamicCursor } = this.props
 
@@ -353,7 +369,8 @@ ColourWheel.propTypes = {
   padding: PropTypes.number,
   dynamicCursor: PropTypes.bool,
   spacers: PropTypes.object,
-  onColourSelected: PropTypes.func
+  onColourSelected: PropTypes.func,
+  preset: PropTypes.bool
 }
 
 ColourWheel.defaultProps = {
@@ -361,7 +378,8 @@ ColourWheel.defaultProps = {
   colours: hexStrings,
   shades: 16,
   padding: 0,
-  dynamicCursor: true
+  dynamicCursor: true,
+  preset: false
 }
 
 export default ColourWheel
