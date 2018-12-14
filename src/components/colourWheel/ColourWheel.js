@@ -270,10 +270,12 @@ class ColourWheel extends Component {
     this.ctx.shadowColor = 'transparent'
   }
 
-  drawInnerWheel () {
-    // TODO: Animate
+  drawInnerWheel (animationPercentage = 0) {
+    let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
+    window.requestAnimationFrame = requestAnimationFrame
+
     const { rgb: { r, g, b } } = this.state
-    const { radius, lineWidth, shades } = this.props
+    const { radius, lineWidth, shades, animate } = this.props
 
     const height = radius * 2
     const width = radius * 2
@@ -288,24 +290,59 @@ class ColourWheel extends Component {
 
     const rgbShades = produceRgbShades(r, g, b, shades)
 
-    // Creating our shades circle:
-    rgbShades.forEach((rgb, i) => {
-      this.ctx.beginPath()
-      // 'kicker' corrects the gap between strokes due to rounding of pi
-      // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
-      const kicker = i === rgbShades.length - 1 ? 2 : 1.99
+    function drawShades () {
+      rgbShades.forEach((rgb, i) => {
+        this.ctx.beginPath()
+        // 'kicker' corrects the gap between strokes due to rounding of pi
+        // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
+        const kicker = i === rgbShades.length - 1 ? 2 : 1.99
 
-      const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
-      const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / kicker) * Math.PI
+        const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
+        const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / kicker) * Math.PI
 
-      this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
-      this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
+        this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
+        this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
 
-      // Stroke style changes based on the shade:
-      this.ctx.strokeStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
-      this.ctx.stroke()
-      this.ctx.closePath()
-    })
+        // Stroke style changes based on the shade:
+        this.ctx.strokeStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+        this.ctx.stroke()
+        this.ctx.closePath()
+      })
+    }
+
+    function animateShades () {
+      rgbShades.forEach((rgb, i) => {
+        this.ctx.beginPath()
+        // 'kicker' corrects the gap between strokes due to rounding of pi
+        // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
+        const kicker = i === rgbShades.length - 1 ? 2 : 1.99
+
+        const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
+        const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / kicker) * Math.PI
+
+        this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
+        this.ctx.lineWidth = lineWidth * animationPercentage // This is the width of the innerWheel.
+
+        // Stroke style changes based on the shade:
+        this.ctx.strokeStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+        this.ctx.stroke()
+        this.ctx.closePath()
+      })
+
+      animationPercentage += (1 / 15) // i.e. 1 / x frames
+
+      // Essentially re-draws rgbShades.forEach until the animationPercentage reaches 1, i.e. 100%
+      if (animationPercentage < 1) requestAnimationFrame(animateShades)
+    }
+
+    animateShades = animateShades.bind(this)
+    drawShades = drawShades.bind(this)
+
+    if (animate) {
+      animateShades()
+    } else { // TODO: Refactor into its own func.
+      drawShades()
+    }
   }
 
   drawCenterCircle () {
@@ -368,7 +405,8 @@ ColourWheel.defaultProps = {
   shades: 16,
   padding: 0,
   dynamicCursor: true,
-  preset: false
+  preset: false,
+  animate: false
 }
 
 export default ColourWheel

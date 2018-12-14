@@ -49,7 +49,7 @@ class App extends Component {
           }}
           preset // You can set this bool depending on whether you have a pre-selected colour in state.
           presetColour={this.state.selectedColour}
-          // animate
+          animate
         />
         <div
           onClick={this.clearColourWheel}
