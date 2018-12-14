@@ -162,8 +162,7 @@ class ColourWheel extends Component {
 
   // MARK - Clicks & action methods:
   outerWheelClicked (evtPos) {
-    // toRgbString is a default prop-type.
-    const { shades, toRgbString } = this.props
+    const { shades } = this.props
 
     // returns an rgba array of the pixel-clicked.
     const rgbaArr = this.ctx.getImageData(evtPos.x, evtPos.y, 1, 1).data
@@ -174,7 +173,7 @@ class ColourWheel extends Component {
     const rgbShades = produceRgbShades(r, g, b, shades)
 
     // Whether the user wants rgb-strings or rgb objects returned.
-    const rgbArg = toRgbString ? convertObjToString(rgb) : rgb
+    const rgbArg = convertObjToString(rgb) // TODO: Let user set different return values in props; e.g. rbg obj, string, etc.
 
     this.props.onColourSelected(rgbArg)
 
@@ -190,14 +189,12 @@ class ColourWheel extends Component {
   }
 
   innerWheelClicked (evtPos) {
-    const { toRgbString } = this.props
-
     const rgbaArr = this.ctx.getImageData(evtPos.x, evtPos.y, 1, 1).data
     const [r, g, b] = rgbaArr
 
     const rgb = { r, g, b }
 
-    const rgbArg = toRgbString ? convertObjToString(rgb) : rgb
+    const rgbArg = convertObjToString(rgb)
 
     this.props.onColourSelected(rgbArg)
 
@@ -371,10 +368,10 @@ ColourWheel.propTypes = {
   spacers: PropTypes.object,
   onColourSelected: PropTypes.func,
   preset: PropTypes.bool
+  // presetColour: PropTypes.string
 }
 
 ColourWheel.defaultProps = {
-  toRgbString: true, // NOTE: This should default to false; be something else -- this is counter-intuitive
   colours: hexStrings,
   shades: 16,
   padding: 0,

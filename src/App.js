@@ -37,9 +37,9 @@ class App extends Component {
           <h2><span style={{ color: selectedColour }}>{selectedColour}</span></h2>
         </div>
         <ColourWheel
-          radius={200}
+          radius={350}
           padding={10}
-          lineWidth={50}
+          lineWidth={75}
           onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
           onRef={ref => (this.colourWheel = ref)}
           spacers={{
@@ -48,7 +48,7 @@ class App extends Component {
             shadowBlur: 5
           }}
           preset // You can set this bool depending on whether you have a pre-selected colour in state.
-          presetColour={'rgb(255, 255, 255)'}
+          presetColour={this.state.selectedColour}
           // animate
         />
         <div
