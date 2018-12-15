@@ -258,24 +258,25 @@ class ColourWheel extends Component {
     this.ctx.beginPath()
 
     this.ctx.arc(width / 2, height / 2, effectiveRadius, 0, fullCircle)
-    this.ctx.lineWidth = padding // This is the width of the innerWheel.
+    this.ctx.lineWidth = padding
 
-    // Stroke-style changes based on the shade:
     this.ctx.shadowColor = shadowColour
     this.ctx.shadowBlur = shadowBlur
     this.ctx.strokeStyle = colour
     this.ctx.stroke()
     this.ctx.closePath()
 
+    // To reset our shadowColor for other strokes.
     this.ctx.shadowColor = 'transparent'
   }
 
   drawInnerWheel (animationPercentage = 0) {
+    // raf setup.
     let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
     window.requestAnimationFrame = requestAnimationFrame
 
     const { rgb: { r, g, b } } = this.state
-    const { radius, lineWidth, shades, animate } = this.props
+    const { radius, lineWidth, shades, animated } = this.props
 
     const height = radius * 2
     const width = radius * 2
@@ -290,15 +291,13 @@ class ColourWheel extends Component {
 
     const rgbShades = produceRgbShades(r, g, b, shades)
 
+    // Different functions for drawing our inner-wheel of shades.
     function drawShades () {
       rgbShades.forEach((rgb, i) => {
         this.ctx.beginPath()
-        // 'kicker' corrects the gap between strokes due to rounding of pi
-        // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
-        const kicker = i === rgbShades.length - 1 ? 2 : 1.99
 
         const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
-        const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / kicker) * Math.PI
+        const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / 2) * Math.PI
 
         this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
         this.ctx.lineWidth = lineWidth // This is the width of the innerWheel.
@@ -313,12 +312,9 @@ class ColourWheel extends Component {
     function animateShades () {
       rgbShades.forEach((rgb, i) => {
         this.ctx.beginPath()
-        // 'kicker' corrects the gap between strokes due to rounding of pi
-        // i.e. the endAngle goes slightly longer than it needs to until the last rgbShade stroke is drawn.
-        const kicker = i === rgbShades.length - 1 ? 2 : 1.99
 
         const startAngle = ((fullCircle / rgbShades.length) * i) + quarterCircle
-        const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / kicker) * Math.PI
+        const endAngle = ((fullCircle / rgbShades.length) * (i + 1)) + (1 / 2) * Math.PI
 
         this.ctx.arc(width / 2, height / 2, effectiveRadius, startAngle, endAngle)
         this.ctx.lineWidth = lineWidth * animationPercentage // This is the width of the innerWheel.
@@ -329,7 +325,8 @@ class ColourWheel extends Component {
         this.ctx.closePath()
       })
 
-      animationPercentage += (1 / 15) // i.e. 1 / x frames
+      // TODO: Make this animation speed dynamic.
+      animationPercentage += (1 / 10) // i.e. 1 / x frames
 
       // Essentially re-draws rgbShades.forEach until the animationPercentage reaches 1, i.e. 100%
       if (animationPercentage < 1) requestAnimationFrame(animateShades)
@@ -338,7 +335,7 @@ class ColourWheel extends Component {
     animateShades = animateShades.bind(this)
     drawShades = drawShades.bind(this)
 
-    if (animate) {
+    if (animated) {
       animateShades()
     } else { // TODO: Refactor into its own func.
       drawShades()

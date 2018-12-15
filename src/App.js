@@ -36,6 +36,7 @@ class App extends Component {
           <h1><span>react-colour-wheel</span></h1>
           <h2><span style={{ color: selectedColour }}>{selectedColour}</span></h2>
         </div>
+
         <ColourWheel
           radius={200}
           padding={10}
@@ -49,8 +50,9 @@ class App extends Component {
           }}
           preset // You can set this bool depending on whether you have a pre-selected colour in state.
           presetColour={this.state.selectedColour}
-          animate
+          animated
         />
+
         <div
           onClick={this.clearColourWheel}
           style={{

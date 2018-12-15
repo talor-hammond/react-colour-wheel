@@ -6,7 +6,6 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
-    "standard": "^12.0.1",
     "tinycolor2": "^1.4.1"
   },
   "scripts": {
@@ -23,5 +22,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "standard": "^12.0.1"
+  }
 }
