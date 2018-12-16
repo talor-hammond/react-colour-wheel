@@ -2,6 +2,7 @@
   "name": "react-colour-wheel",
   "description": "A circular colour-picker React component; built with HTML5's canvas & context-api",
   "version": "0.1.0",
+  "main": "./src/components/colourWheel/ColourWheel.js",
   "private": true,
   "dependencies": {
     "react": "^16.6.3",
