@@ -1,5 +1,6 @@
 {
   "name": "react-colour-wheel",
+  "description": "A circular colour-picker React component; built with HTML5's canvas & context-api",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -25,5 +26,11 @@
   ],
   "devDependencies": {
     "standard": "^12.0.1"
-  }
+  },
+  "keywords": [
+    "colour",
+    "color",
+    "picker",
+    "wheel"
+  ]
 }
