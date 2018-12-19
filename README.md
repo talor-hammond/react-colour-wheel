@@ -29,30 +29,53 @@ Start by giving your `ColourWheel` a `radius`, `lineWidth`, and utilise the rgb-
 The `ColourWheel` component has many options available for customisation through `props`:
 
 ### `radius`
-Customise the radius of the ColourWheel, all the way to the outer-edge.  
+Customise the radius of the `ColourWheel`, all the way to the outer-edge.  
 * pixels, `px`
 * `propTypes`: **number**, **isRequired**
 
-> `radius={200}`
+`radius={200}`
+
+---
 
 ### `lineWidth`
 Customise the width of the outer- and inner-wheels.
 * pixels, `px`
 * `propTypes`: **number**, **isRequired**
 
-> `lineWidth={50}`
+`lineWidth={50}`
+
+---
 
 ### `onColourSelected`
 Method that returns an rgb-value; typical use case might be to `setState({ rgb })` on the parent-component.
 * `propTypes`: **func**
 
-> `onColourSelected={(rgb) => ... )}`
+`onColourSelected={(rgb) => ... )}`
+
+---
 
 ### `padding`
 Sets the space between the outer-wheel, inner-wheel, and the center-circle.
 * pixels, `px`
 * `propTypes`: **number**
 
-> `padding={10}`
+`padding={10}`
+
+---
+
+### `spacers`
+Allows you to customise the styling of the `padding` that was set:
+* Need to specify an object with `colour`, `shadowColour`, and `shadowBlur` properties.
+* `propTypes`: **object**
+
+```javascript
+  spacers={{
+    colour: '#FFFFFF',
+    shadowColour: 'grey',
+    shadowBlur: 5
+  }}
+```
+
+---
 
 ## How do I clear the colour-wheel programmatically?
