@@ -16,13 +16,16 @@ yarn add react-colour-wheel
 ```javascript
 import ColourWheel from 'react-colour-wheel'
 ```
-...somewhere in your `render()` method...
-```javascript
+Start by giving your `ColourWheel` a `radius`, `lineWidth`, and utilise the rgb-value sent through `onColourSelected`
+```jsx
 <ColourWheel
-  radius={200}
-  lineWidth={50}
+  radius={200} // These are pixel-values.
+  lineWidth={50} // Ditto.
   onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
 />
 ```
 
-## Customisation + `props`
+## Customisation
+The `ColourWheel` component has many options available for customisation through `props`:
+
+## What types of colours can I give the colour wheel?

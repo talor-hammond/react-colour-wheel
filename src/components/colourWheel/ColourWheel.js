@@ -24,8 +24,10 @@ const propTypes = {
   dynamicCursor: PropTypes.bool,
   spacers: PropTypes.object,
   onColourSelected: PropTypes.func,
-  preset: PropTypes.bool
-  // presetColour: PropTypes.string
+  preset: PropTypes.bool,
+  animated: PropTypes.bool,
+  presetColour: PropTypes.string,
+  toRgbObj: PropTypes.bool
 }
 
 const defaultProps = {
@@ -34,7 +36,8 @@ const defaultProps = {
   padding: 0,
   dynamicCursor: true,
   preset: false,
-  animate: false
+  animated: true,
+  toRgbObj: false
 }
 
 // Global-vars:
