@@ -33,10 +33,26 @@ Customise the radius of the ColourWheel, all the way to the outer-edge.
 * pixels, `px`
 * `propTypes`: **number**, **isRequired**
 
+> `radius={200}`
+
 ### `lineWidth`
 Customise the width of the outer- and inner-wheels.
 * pixels, `px`
 * `propTypes`: **number**, **isRequired**
 
+> `lineWidth={50}`
 
-## What types of colours can I give the colour wheel?
+### `onColourSelected`
+Method that returns an rgb-value; typical use case might be to `setState({ rgb })` on the parent-component.
+* `propTypes`: **func**
+
+> `onColourSelected={(rgb) => ... )}`
+
+### `padding`
+Sets the space between the outer-wheel, inner-wheel, and the center-circle.
+* pixels, `px`
+* `propTypes`: **number**
+
+> `padding={10}`
+
+## How do I clear the colour-wheel programmatically?

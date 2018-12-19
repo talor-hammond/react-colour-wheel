@@ -18,12 +18,12 @@ import hexStrings from '../../utils/hexStrings'
 const propTypes = {
   radius: PropTypes.number.isRequired,
   lineWidth: PropTypes.number.isRequired,
+  onColourSelected: PropTypes.func,
   colours: PropTypes.array,
   shades: PropTypes.number,
   padding: PropTypes.number,
   dynamicCursor: PropTypes.bool,
   spacers: PropTypes.object,
-  onColourSelected: PropTypes.func,
   preset: PropTypes.bool,
   animated: PropTypes.bool,
   presetColour: PropTypes.string,
