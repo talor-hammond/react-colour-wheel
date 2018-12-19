@@ -28,4 +28,15 @@ Start by giving your `ColourWheel` a `radius`, `lineWidth`, and utilise the rgb-
 ## Customisation
 The `ColourWheel` component has many options available for customisation through `props`:
 
+### `radius`
+Customise the radius of the ColourWheel, all the way to the outer-edge.  
+* pixels, `px`
+* `propTypes`: **number**, **isRequired**
+
+### `lineWidth`
+Customise the width of the outer- and inner-wheels.
+* pixels, `px`
+* `propTypes`: **number**, **isRequired**
+
+
 ## What types of colours can I give the colour wheel?
