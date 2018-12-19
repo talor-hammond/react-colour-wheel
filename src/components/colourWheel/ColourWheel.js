@@ -14,6 +14,29 @@ import {
 } from '../../utils/utils'
 import hexStrings from '../../utils/hexStrings'
 
+// Prop-types:
+const propTypes = {
+  radius: PropTypes.number.isRequired,
+  lineWidth: PropTypes.number.isRequired,
+  colours: PropTypes.array,
+  shades: PropTypes.number,
+  padding: PropTypes.number,
+  dynamicCursor: PropTypes.bool,
+  spacers: PropTypes.object,
+  onColourSelected: PropTypes.func,
+  preset: PropTypes.bool
+  // presetColour: PropTypes.string
+}
+
+const defaultProps = {
+  colours: hexStrings,
+  shades: 16,
+  padding: 0,
+  dynamicCursor: true,
+  preset: false,
+  animate: false
+}
+
 // Global-vars:
 const fullCircle = 2 * Math.PI
 const quarterCircle = fullCircle / 4
@@ -384,26 +407,7 @@ class ColourWheel extends Component {
   }
 }
 
-ColourWheel.propTypes = {
-  radius: PropTypes.number.isRequired,
-  lineWidth: PropTypes.number.isRequired,
-  colours: PropTypes.array,
-  shades: PropTypes.number,
-  padding: PropTypes.number,
-  dynamicCursor: PropTypes.bool,
-  spacers: PropTypes.object,
-  onColourSelected: PropTypes.func,
-  preset: PropTypes.bool
-  // presetColour: PropTypes.string
-}
-
-ColourWheel.defaultProps = {
-  colours: hexStrings,
-  shades: 16,
-  padding: 0,
-  dynamicCursor: true,
-  preset: false,
-  animate: false
-}
+ColourWheel.propTypes = propTypes
+ColourWheel.defaultProps = defaultProps
 
 export default ColourWheel
