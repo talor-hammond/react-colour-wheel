@@ -2,7 +2,9 @@
 > A circular colour-picker React component; built with HTML5's canvas & context-api. Full customisation & control through `props`.
 
 ## Demo
-Check out this [CodeSandbox](https://codesandbox.io/s/5wv077wv1k) example.
+![react-colour-wheel](https://media.giphy.com/media/2si2OWkf24O0P1RP8E/giphy.gif)
+
+Check out this **[CodeSandbox](https://codesandbox.io/s/5wv077wv1k)** example.
 
 ## Quick-start guide
 **Installation**
