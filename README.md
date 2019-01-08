@@ -105,18 +105,29 @@ Allows you to define an **array of colours** that will populate the outer-wheel 
 * `colours` accepts hex-strings, rgb-strings & objects, names and other variations.
   *  This is based on [tinycolor2's](https://www.npmjs.com/package/tinycolor2) core `.toRgb()` method.
 * `propTypes`: **array**
+* `defaultProps`: A comprehensive array of 16 colours.
+
+---
+
+### `shades`
+Choose the number of shades that will be produced when any particular colour is chosen.
+* The array of shades produced & rendered will scale evenly from 10% - 90% luminosity of the selected colour.
+* `propTypes`: **array** 
+* `defaultProps`: `16`
 
 ```javascript
-  colours={[
-    'blue',
-    'green',
-    'red',
-    'yellow',
-    'black',
-    'white
-  ]}
+  shades={12}
 ```
 
 ---
+
+### `dynamicCursor`
+Determines whether or not the cursor-style should update dynamically depending on where it is hovering.
+* `propTypes`: **bool**
+* `defaultProps`: `true`
+
+---
+
+
 
 ## How do I clear the colour-wheel programmatically?

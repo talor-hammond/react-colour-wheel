@@ -25,8 +25,8 @@ const propTypes = {
   shades: PropTypes.number,
   dynamicCursor: PropTypes.bool,
   preset: PropTypes.bool,
-  animated: PropTypes.bool,
   presetColour: PropTypes.string,
+  animated: PropTypes.bool,
   toRgbObj: PropTypes.bool
 }
 
