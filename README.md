@@ -112,7 +112,7 @@ Allows you to define an **array of colours** that will populate the outer-wheel 
 ### `shades`
 Choose the number of shades that will be produced when any particular colour is chosen.
 * The array of shades produced & rendered will scale evenly from 10% - 90% luminosity of the selected colour.
-* `propTypes`: **array** 
+* `propTypes`: **number** 
 * `defaultProps`: `16`
 
 ```javascript
