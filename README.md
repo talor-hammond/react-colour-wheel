@@ -99,4 +99,24 @@ Allows you to customise the styling of the `padding` that was set:
 
 ---
 
+### `colours`
+Allows you to define an **array of colours** that will populate the outer-wheel of the colour-wheel.
+* *By default*, an array of 16 hex-strings is provided to help you get started.
+* `colours` accepts hex-strings, rgb-strings & objects, names and other variations.
+  *  This is based on [tinycolor2's](https://www.npmjs.com/package/tinycolor2) core `.toRgb()` method.
+* `propTypes`: **array**
+
+```javascript
+  colours={[
+    'blue',
+    'green',
+    'red',
+    'yellow',
+    'black',
+    'white
+  ]}
+```
+
+---
+
 ## How do I clear the colour-wheel programmatically?
