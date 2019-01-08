@@ -18,12 +18,31 @@ yarn add react-colour-wheel
 ```javascript
 import ColourWheel from 'react-colour-wheel'
 ```
-Start by giving your `ColourWheel` a `radius`, `lineWidth`, and utilise the rgb-value sent through `onColourSelected`
+Start by giving your `ColourWheel` a `radius`, `lineWidth`, and utilise the rgb-value sent through `onColourSelected`:
 ```jsx
 <ColourWheel
-  radius={200} // These are pixel-values.
-  lineWidth={50} // Ditto.
+  radius={200}
+  lineWidth={50}
   onColourSelected={(rgb) => this.setState({ selectedColour: rgb })}
+/>
+```
+
+*However*, a more typical implementation might look like:
+```jsx
+<ColourWheel
+  radius={200}
+  padding={10}
+  lineWidth={50}
+  onColourSelected={(rgb) => this.setState({ rgb })}
+  onRef={ref => (this.colourWheel = ref)}
+  spacers={{
+    colour: '#FFFFFF',
+    shadowColour: 'grey',
+    shadowBlur: 5
+  }}
+  preset
+  presetColour={this.state.rgb}
+  animated
 />
 ```
 
