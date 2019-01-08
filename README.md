@@ -107,6 +107,14 @@ Allows you to define an **array of colours** that will populate the outer-wheel 
 * `propTypes`: **array**
 * `defaultProps`: A comprehensive array of 16 colours.
 
+```javascript
+  colours={[
+    'blue',
+    'rgb(200, 200, 200)',
+    '#FFFFFF'
+  ]}
+```
+
 ---
 
 ### `shades`
@@ -128,6 +136,33 @@ Determines whether or not the cursor-style should update dynamically depending o
 
 ---
 
+### `presetColour`
+If you want the colour-wheel to render w a colour already provided, use the `presetColour` prop:
+* `propTypes`: **string**
+* **Important**: You must set the `preset` prop to `true` when a `presetColour` is set.
 
+---
+
+### `animated`
+Specifies whether the inner-wheel will animate when an outer-wheel colour is selected.
+* `propTypes`: **bool**
+* `defaultProps`: `true`
+
+---
 
 ## How do I clear the colour-wheel programmatically?
+1. Create a `ref` to the colour-wheel component in your parent component:
+```jsx
+<ColourWheel
+ ...
+ onRef={ref => (this.colourWheel = ref)}
+ ...
+/>
+```
+2. Call the colour-wheel's `.clear()` method from your parent component where you need it:
+```jsx
+  clearColourWheel = () => {
+    this.colourWheel.clear(() => ...)
+    // NOTE: Optional callback which you can use to do stuff after the wheel has been cleared.
+  }
+```
