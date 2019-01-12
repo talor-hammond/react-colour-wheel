@@ -1,10 +1,13 @@
 {
-  "name": "react-colour-wheel",
+  "name": "@talorh/react-colour-wheel",
   "version": "1.0.0",
-  "description": "",
+  "description": ">",
   "author": "talor-hammond",
   "license": "MIT",
-  "repository": "talor-hammond/react-colour-wheel",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/talor-hammond/react-colour-wheel.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
@@ -57,5 +60,19 @@
   },
   "files": [
     "dist"
+  ],
+  "bugs": {
+    "url": "https://github.com/talor-hammond/react-colour-wheel/issues"
+  },
+  "homepage": "https://github.com/talor-hammond/react-colour-wheel#readme",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {},
+  "keywords": [
+    "colour",
+    "color",
+    "picker",
+    "wheel"
   ]
 }
