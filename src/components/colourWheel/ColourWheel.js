@@ -131,6 +131,7 @@ class ColourWheel extends Component {
 
   componentDidMount () {
     // Giving this context to our parent component.
+    // TODO: Calling this onRef method needs to be conditional. i.e. sometimes the person might not need this method
     this.props.onRef(this)
 
     // Initialising our canvas & context objs.
