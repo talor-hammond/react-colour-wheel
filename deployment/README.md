@@ -166,3 +166,8 @@ Specifies whether the inner-wheel will animate when an outer-wheel colour is sel
     // NOTE: Optional callback which you can use to do stuff after the wheel has been cleared.
   }
 ```
+
+## Issues
+- [ ] ColourWheel won't render correctly without an `onRef` prop. This logic needs to be conditional. (it's in `componentDidMount`)
+- [ ] The ColourWheel won't animate if a `spacers` prop isn't provided.
+ 
