@@ -1,7 +1,7 @@
 {
-  "name": "@talorh/react-colour-wheel",
-  "version": "1.0.3",
-  "description": ">",
+  "name": "react-colour-wheel",
+  "version": "1.0.4",
+  "description": "A circular colour-picker React component; built with HTML5's canvas & context-api. Full customisation & control through props.",
   "author": "talor-hammond",
   "license": "MIT",
   "repository": {
