@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import { terser } from 'rollup-plugin-terser'
 
 // rollup.config.js
@@ -30,6 +31,7 @@ const config = {
         'node_modules/react-dom/index.js': ['render']
       }
     }),
+    sizeSnapshot(),
     terser()
   ]
 }
