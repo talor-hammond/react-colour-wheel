@@ -13,6 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "bundle": "rollup -c",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -26,6 +27,17 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-size-snapshot": "^0.8.0",
+    "rollup-plugin-terser": "^4.0.2",
     "standard": "^12.0.1"
   },
   "keywords": [
