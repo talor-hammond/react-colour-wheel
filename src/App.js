@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 // react-colour-wheel:
-import ColourWheel from './components/colourWheel/ColourWheel'
+import ColourWheel from 'react-colour-wheel'
 
 const yourDefaultColour = 'rgb(255, 255, 255)'
 
