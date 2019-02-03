@@ -1,11 +1,11 @@
 {
   "name": "react-colour-wheel",
   "description": "A circular colour-picker React component; built with HTML5's canvas & context-api",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "./src/components/colourWheel/ColourWheel.js",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/talor-hammond/react-colour-wheel.git"
+    "type": "git",
+    "url": "https://github.com/talor-hammond/react-colour-wheel.git"
   },
   "dependencies": {
     "react": "^16.6.3",
