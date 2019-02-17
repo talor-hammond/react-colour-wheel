@@ -122,7 +122,7 @@ class ColourWheel extends Component {
     this.secondSpacerRadius = this.innerWheelRadius - lineWidth
 
     // Defining our bounds-objects, exposes a .inside(e) -> boolean method:
-    this.outerWheelBounds = calculateBounds(radius - lineWidth, radius)
+    this.outerWheelBounds = calculateBounds(radius - lineWidth, radius) // Draw this one out to illustrate
     this.innerWheelBounds = calculateBounds(this.innerWheelRadius - lineWidth, this.innerWheelRadius)
     this.centerCircleBounds = calculateBounds(0, this.centerCircleRadius)
     this.firstSpacerBounds = calculateBounds(this.firstSpacerRadius - padding, this.firstSpacerRadius)
