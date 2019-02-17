@@ -15,7 +15,7 @@ The first problem to be solved is drawing circles programmatically -- we can do 
     // I chose to assign our canvas' context-object to this.ctx, that way I can call the methods cleanly from anywhere inside our ColourWheel component.
 ```
 
-Once `this.ctx` is defined, we can use the `.arc(w, h, rad, startAngle, endAngle)` method to draw our outer-wheel. The outer-wheel is drawn based on the array of `colours` fed in through `props`. The `startAngle` and `endAngle` should scale automatically to draw one complete circle; depending on the length of the array.
+Once `this.ctx` is defined, we can **use the `.arc(w, h, rad, startAngle, endAngle)` method to draw our outer-wheel**. The outer-wheel is drawn based on the array of `colours` fed in through `props`. The `startAngle` and `endAngle` should scale automatically to draw one complete circle; depending on the length of the array.
 
 ```javascript
   rgbArr.forEach((rgb, i) => {
@@ -49,7 +49,7 @@ Firstly, our `<canvas />` element has two events been tracked:
    />
 ```
 
-The `onCanvasHover()` method defines an `evt` variable which is handled by `getRelativeMousePos()` == which ends up doing most of the dirty-work.
+The `onCanvasHover()` method defines an `evt` variable defined by `getRelativeMousePos()` -- which ends up doing most of the dirty-work.
 
 ```javascript
 onCanvasHover ({ clientX, clientY }) {
@@ -109,7 +109,7 @@ Then, we can calculate the bounds of the circles and spacers, giving those varia
 
 ## ...and how are the shades & inner-circle rendered?
 
-This was one of the more-interesting challenges for me. The main difficulty was being able to produce an array of shades of the selected colour. I spent quite some time researching / experimenting until I realised the key to this was to convert the colour to an hsl (hue, saturation, *lightness*), and scale the lightness to produce lighter / darker shades.
+**This was one of the more-interesting challenges for me**. The main difficulty was being able to produce an array of shades of the selected colour. I spent quite some time researching / experimenting until I realised the key to this was to **convert the colour to an hsl** (hue, saturation, *lightness*), and scale the lightness to produce lighter / darker shades.
 
 ```javascript
 export function produceRgbShades (r, g, b, amount) {
