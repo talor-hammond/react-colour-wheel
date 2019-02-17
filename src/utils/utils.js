@@ -1,4 +1,4 @@
-import tinycolor from 'tinycolor2' // TODO: Make this smaller?
+import tinycolor from 'tinycolor2'
 
 export function produceRgbShades (r, g, b, amount) {
   let shades = []
